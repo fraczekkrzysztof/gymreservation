@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,8 +14,15 @@ import javax.persistence.Table;
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "res_id")
 	private int id;
+	@ManyToOne
+	@JoinColumn(name="res_cl_id")
+	private Class clas;
+	@Column(name="res_name")
+	private String name;
+	@Column(name="res_email")
+	private String email;
 
 
 }

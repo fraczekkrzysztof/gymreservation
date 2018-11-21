@@ -12,8 +12,12 @@ import javax.persistence.Table;
 public class Trainer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "tr_id")
 	private int id;
+	@Column(name="tr_symbol")
+	private String symbol;
+	@Column(name="tr_name")
+	private String name;
 
 
 }
