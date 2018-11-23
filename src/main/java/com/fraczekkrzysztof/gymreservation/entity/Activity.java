@@ -1,10 +1,14 @@
 package com.fraczekkrzysztof.gymreservation.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,17 +22,23 @@ public class Activity {
 	private String symbol;
 	@Column(name="ac_name")
 	private String name;
+	@OneToMany(mappedBy="activity", cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	private Set<Class> classes;
 
 	public Activity() {
 		
 	}
 
-	public Activity(int id, String symbol, String name) {
+
+	public Activity(int id, String symbol, String name, Set<Class> classes) {
 		super();
 		this.id = id;
 		this.symbol = symbol;
 		this.name = name;
+		this.classes = classes;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -54,10 +64,24 @@ public class Activity {
 		this.name = name;
 	}
 
+	
+	public Set<Class> getClasses() {
+		return classes;
+	}
+
+
+	public void setClasses(Set<Class> classes) {
+		this.classes = classes;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Activity [id=" + id + ", symbol=" + symbol + ", name=" + name + "]";
+		return "Activity [id=" + id + ", symbol=" + symbol + ", name=" + name + ", classes=" + classes + "]";
 	}
+
+
+	
 	
 	
 }
