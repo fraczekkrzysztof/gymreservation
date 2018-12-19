@@ -38,5 +38,9 @@ public class ActivityService {
 	public void delete(Activity theActivity) {
 		activityDao.delete(theActivity);
 	}
+	
+	public Activity findBySymbol(String symbol) {
+		return activityDao.findBySymbol(symbol);
+	}
 
 }

@@ -3,7 +3,6 @@ package com.fraczekkrzysztof.gymreservation.controller.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fraczekkrzysztof.gymreservation.controller.rest.exception.DuplicatedException;
 import com.fraczekkrzysztof.gymreservation.entity.Activity;
 import com.fraczekkrzysztof.gymreservation.service.ActivityService;
 
@@ -36,6 +36,10 @@ public class ActivityRestController {
 	@PostMapping("activity")
 	public Activity addActivity(@RequestBody Activity theActivity) {
 		//becouse it should add an activity the id need to be 0
+		Activity tempActivity = activityService.findBySymbol(theActivity.getSymbol());
+		if (!(tempActivity == null)) {
+			throw new DuplicatedException("Already exists!");
+		}
 		theActivity.setId(0);
 		return activityService.saveOrUpdate(theActivity);
 		
