@@ -18,6 +18,38 @@ public class Trainer {
 	private String symbol;
 	@Column(name="tr_name")
 	private String name;
-
+	
+	public Trainer() {
+		
+	}
+	public Trainer(int id, String symbol, String name) {
+		super();
+		this.id = id;
+		this.symbol = symbol;
+		this.name = name;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getSymbol() {
+		return symbol;
+	}
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return "Trainer [id=" + id + ", symbol=" + symbol + ", name=" + name + "]";
+	}
+	
 
 }
