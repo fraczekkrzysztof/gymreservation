@@ -18,7 +18,7 @@ public class Reservation {
 	private int id;
 	@ManyToOne
 	@JoinColumn(name="res_cl_id")
-	private Class clas;
+	private Lesson clas;
 	@Column(name="res_name")
 	private String name;
 	@Column(name="res_email")

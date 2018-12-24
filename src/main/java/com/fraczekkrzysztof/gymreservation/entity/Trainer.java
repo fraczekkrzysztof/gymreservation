@@ -1,11 +1,18 @@
 package com.fraczekkrzysztof.gymreservation.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "trainer")
@@ -18,6 +25,9 @@ public class Trainer {
 	private String symbol;
 	@Column(name="tr_name")
 	private String name;
+	@OneToMany(mappedBy = "trainer", cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<Lesson> lessons;
 	
 	public Trainer() {
 		
@@ -46,10 +56,18 @@ public class Trainer {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public List<Lesson> getLessons() {
+		return lessons;
+	}
+	public void setLessons(List<Lesson> lessons) {
+		this.lessons = lessons;
+	}
 	@Override
 	public String toString() {
-		return "Trainer [id=" + id + ", symbol=" + symbol + ", name=" + name + "]";
+		return "Trainer [id=" + id + ", symbol=" + symbol + ", name=" + name + ", lessons=" + lessons + "]";
 	}
+	
 	
 
 }
