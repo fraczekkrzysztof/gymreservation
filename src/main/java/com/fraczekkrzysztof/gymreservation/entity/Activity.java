@@ -13,10 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "activity")
+@JsonIgnoreProperties(value= "lessons")
 public class Activity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
