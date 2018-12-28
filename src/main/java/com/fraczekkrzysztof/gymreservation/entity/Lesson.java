@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,10 +13,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
 
 @Entity
 @Table(name = "class")
+//@JsonIdentityInfo(
+//		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+//		  property = "id")
 public class Lesson {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +36,13 @@ public class Lesson {
 	private int max;
 	@Column(name="cl_available")
 	private int available;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="cl_tr_id")
-	@JsonBackReference
+	//@JsonManagedReference(value="trainer-lesson")
 	private Trainer trainer;
 	@ManyToOne
 	@JoinColumn(name="cl_ac_id")
-	@JsonBackReference
+	//@JsonManagedReference(value="activity-lesson")
 	private Activity activity;
 	
 	public Lesson() {

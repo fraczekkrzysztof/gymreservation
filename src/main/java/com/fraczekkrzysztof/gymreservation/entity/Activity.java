@@ -13,12 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "activity")
-@JsonIgnoreProperties(value= "lessons")
+@JsonIgnoreProperties(value="lessons")
+//@JsonIdentityInfo(
+//		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+//		  property = "id")
+//@JsonIdentityInfo(
+//		generator=ObjectIdGenerators.IntSequenceGenerator.class,
+//		property="@id",
+//		scope = Lesson.class)
 public class Activity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +36,7 @@ public class Activity {
 	@Column(name="ac_name")
 	private String name;
 	@OneToMany(mappedBy="activity", cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.LAZY)
-	@JsonManagedReference
+	@JsonBackReference(value = "activity-lesson")
 	private List<Lesson> lessons;
 
 	public Activity() {
@@ -84,7 +91,7 @@ public class Activity {
 
 	@Override
 	public String toString() {
-		return "Activity [id=" + id + ", symbol=" + symbol + ", name=" + name + ", lessons=" + lessons + "]";
+		return "Activity [id=" + id + ", symbol=" + symbol + ", name=" + name + ", lessons=" + lessons.toString() + "]";
 	}
 
 
