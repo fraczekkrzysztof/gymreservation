@@ -1,6 +1,9 @@
 package com.fraczekkrzysztof.gymreservation.controller.rest;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +33,8 @@ public class LessonRestController {
 	ActivityService activityService;
 	@Autowired
 	TrainerService trainerService;
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy",new Locale("en","PL"));
 
 	@GetMapping("/lesson")
 	public List<Lesson> getAllLessons() {
@@ -43,8 +48,10 @@ public class LessonRestController {
 	}
 
 	@PostMapping("/lesson")
-	public Lesson addLesson(@RequestBody LessonDto theLessonDto) {
-		Lesson theLesson = new Lesson(0, theLessonDto.getName(), theLessonDto.getDate(), theLessonDto.getMax(),
+	public Lesson addLesson(@RequestBody LessonDto theLessonDto) throws ParseException {
+		System.out.println(theLessonDto.getDate());
+		System.out.println(sdf.parse(theLessonDto.getDate()));
+		Lesson theLesson = new Lesson(0, theLessonDto.getName(), sdf.parse(theLessonDto.getDate()), theLessonDto.getMax(),
 				theLessonDto.getAvailable(), null, null);
 		Activity tempActivity = activityService.findById(theLessonDto.getActivity());
 		Trainer tempTrainer = trainerService.findById(theLessonDto.getTrainer());
@@ -68,3 +75,4 @@ public class LessonRestController {
 		lessonService.delete(theId);
 	}
 }
+

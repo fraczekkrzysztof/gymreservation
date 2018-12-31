@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 
 
@@ -31,6 +33,7 @@ public class Lesson {
 	private String name;
 	@Column(name="cl_date")
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Warsaw")
 	private Date date;
 	@Column(name="cl_max")
 	private int max;
