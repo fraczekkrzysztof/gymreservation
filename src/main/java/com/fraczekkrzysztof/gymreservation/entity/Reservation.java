@@ -18,11 +18,59 @@ public class Reservation {
 	private int id;
 	@ManyToOne
 	@JoinColumn(name="res_cl_id")
-	private Lesson clas;
+	private Lesson lesson;
 	@Column(name="res_name")
 	private String name;
 	@Column(name="res_email")
 	private String email;
+	
+	public Reservation() {
+		
+	}
+	
+	public Reservation(int id, Lesson lesson, String name, String email) {
+		super();
+		this.id = id;
+		this.lesson = lesson;
+		this.name = name;
+		this.email = email;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Lesson getLesson() {
+		return lesson;
+	}
+
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
+	
+	
 
 
 }
