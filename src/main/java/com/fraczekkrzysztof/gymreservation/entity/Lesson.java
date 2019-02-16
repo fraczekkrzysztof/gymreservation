@@ -118,6 +118,12 @@ public class Lesson {
 	public void setActivity(Activity activity) {
 		this.activity = activity;
 	}
+	
+	public void changeAvailable() {
+		if (this.available > 0) {
+			this.available--;
+		}
+	}
 
 	@Override
 	public String toString() {
