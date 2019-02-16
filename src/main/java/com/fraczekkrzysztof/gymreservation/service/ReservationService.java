@@ -42,5 +42,9 @@ public class ReservationService {
 	public List<Reservation> findByLessonId(int theId){
 		return reservationDao.findByLessonId(theId);
 	}
+	
+	public int findMaxWaitingNumber(int theLessonId) {
+		return reservationDao.findMaxWaitingNumber(theLessonId).orElse(0);
+	}
 
 }

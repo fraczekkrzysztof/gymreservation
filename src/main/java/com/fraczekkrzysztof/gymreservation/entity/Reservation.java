@@ -17,23 +17,29 @@ public class Reservation {
 	@Column(name = "res_id")
 	private int id;
 	@ManyToOne
-	@JoinColumn(name="res_cl_id")
+	@JoinColumn(name = "res_cl_id")
 	private Lesson lesson;
-	@Column(name="res_name")
+	@Column(name = "res_name")
 	private String name;
-	@Column(name="res_email")
+	@Column(name = "res_email")
 	private String email;
-	
+	@Column(name = "res_confirmed")
+	private boolean confirmed = false;
+	@Column(name = "res_waiting_lp")
+	private int waiting;
+
 	public Reservation() {
-		
+
 	}
-	
-	public Reservation(int id, Lesson lesson, String name, String email) {
+
+	public Reservation(int id, Lesson lesson, String name, String email, boolean confirmed, int waiting) {
 		super();
 		this.id = id;
 		this.lesson = lesson;
 		this.name = name;
 		this.email = email;
+		this.confirmed = confirmed;
+		this.waiting = waiting;
 	}
 
 	public int getId() {
@@ -67,10 +73,21 @@ public class Reservation {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
-	
 
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+	public int getWaiting() {
+		return waiting;
+	}
+
+	public void setWaiting(int waiting) {
+		this.waiting = waiting;
+	}
 
 }

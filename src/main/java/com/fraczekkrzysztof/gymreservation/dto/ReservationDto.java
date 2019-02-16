@@ -6,17 +6,21 @@ public class ReservationDto {
 	private int lesson;
 	private String name;
 	private String email;
+	private boolean confirmed;
+	private int waiting;
 	
 	public ReservationDto() {
 		
 	}
 
-	public ReservationDto(int id, int lessson, String name, String email) {
+	public ReservationDto(int id, int lessson, String name, String email, boolean confirmed, int waiting) {
 		super();
 		this.id = id;
 		this.lesson = lessson;
 		this.name = name;
 		this.email = email;
+		this.confirmed = confirmed;
+		this.waiting = waiting;
 	}
 
 	public int getId() {
@@ -50,6 +54,24 @@ public class ReservationDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+	public int getWaiting() {
+		return waiting;
+	}
+
+	public void setWaiting(int waiting) {
+		this.waiting = waiting;
+	}
+	
+	
 
 	
 	

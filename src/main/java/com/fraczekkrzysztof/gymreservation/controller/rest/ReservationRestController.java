@@ -52,12 +52,35 @@ public class ReservationRestController {
 			throw new NotFoundException("There is no lesson with id " + theReservation.getLesson());
 		}
 		Reservation insertedReservation = new Reservation(0, theLesson, theReservation.getName(),
-				theReservation.getEmail());
+				theReservation.getEmail(),false,0);
 		reservationService.saveOrUpdate(insertedReservation);
 		theLesson.changeAvailable();
 		lessonService.saveOrUdpdate(theLesson);
 		emailSender.sendEmail(theReservation.getEmail(), emailSender.EMAIL_TOPIC_RESERVATION, emailSender.TEMPLATE_NAME,
-				emailSender.generateReservationEmail(theLesson));
+				emailSender.generateReservationEmail(theLesson,insertedReservation));
 		return insertedReservation;
 	}
+	
+	@PostMapping("/reservation/waiting")
+	public Reservation addToWaitingList(@RequestBody ReservationDto theReservation) {
+		Lesson theLesson = lessonService.findById(theReservation.getLesson());
+		if (theLesson == null) {
+			throw new NotFoundException("There is no lesson with id " + theReservation.getLesson());
+		}
+		int maxWaiting = reservationService.findMaxWaitingNumber(theReservation.getLesson());
+		maxWaiting++;
+		Reservation insertedReservation = new Reservation (0, theLesson, theReservation.getName(), theReservation.getEmail(),false,maxWaiting);
+		reservationService.saveOrUpdate(insertedReservation);
+		return insertedReservation;
+	}
+	
+	@GetMapping("/reservation/{reservationId}/confirm")
+	public String confirmReservation(@PathVariable("reservationId") int theReservationId) {
+		Reservation theReservation = reservationService.findById(theReservationId);
+		theReservation.setConfirmed(true);
+		reservationService.saveOrUpdate(theReservation);
+		return "Reservation Confirmed!";
+	}
+	
+	
 }
