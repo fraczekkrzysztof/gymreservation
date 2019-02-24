@@ -2,6 +2,9 @@ package com.fraczekkrzysztof.gymreservation.controller.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fraczekkrzysztof.gymreservation.controller.rest.exception.MyParseException;
 import com.fraczekkrzysztof.gymreservation.controller.rest.exception.NotFoundException;
 import com.fraczekkrzysztof.gymreservation.dto.LessonDto;
 import com.fraczekkrzysztof.gymreservation.entity.Activity;
@@ -50,24 +54,31 @@ public class LessonRestController {
 	@PostMapping("/lesson")
 	public Lesson addLesson(@RequestBody LessonDto theLessonDto) throws ParseException {
 		System.out.println(theLessonDto.getDate());
-		System.out.println(sdf.parse(theLessonDto.getDate()));
-		Lesson theLesson = new Lesson(0, theLessonDto.getName(), sdf.parse(theLessonDto.getDate()), theLessonDto.getMax(),
-				theLessonDto.getAvailable(), null, null);
-		Activity tempActivity = activityService.findById(theLessonDto.getActivity());
-		Trainer tempTrainer = trainerService.findById(theLessonDto.getTrainer());
-		if (tempActivity == null) {
-			throw new NotFoundException("Can't add Lesson without Activity");
-		} else {
-			theLesson.setActivity(tempActivity);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+		try {
+			LocalDateTime date = LocalDateTime.parse(theLessonDto.getDate(), dtf);
+			System.out.println(date);
+			Lesson theLesson = new Lesson(0, theLessonDto.getName(),date, theLessonDto.getMax(),
+					theLessonDto.getAvailable(), null, null);
+			Activity tempActivity = activityService.findById(theLessonDto.getActivity());
+			Trainer tempTrainer = trainerService.findById(theLessonDto.getTrainer());
+			if (tempActivity == null) {
+				throw new NotFoundException("Can't add Lesson without Activity");
+			} else {
+				theLesson.setActivity(tempActivity);
+			}
+			if (tempTrainer == null) {
+				throw new NotFoundException("Can't add Lesson without Trainer");
+			} else {
+				theLesson.setTrainer(tempTrainer);
+			}
+			Lesson addedLesson = lessonService.saveOrUdpdate(theLesson);
+			return addedLesson;
 		}
-		if (tempTrainer == null) {
-			throw new NotFoundException("Can't add Lesson without Trainer");
-		} else {
-			theLesson.setTrainer(tempTrainer);
+		catch(DateTimeParseException ex) {
+			throw new MyParseException("Bad date format!");
 		}
-
-		Lesson addedLesson = lessonService.saveOrUdpdate(theLesson);
-		return addedLesson;
+		
 	}
 	
 	@DeleteMapping("/lesson/{id}")

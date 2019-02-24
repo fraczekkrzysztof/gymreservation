@@ -1,5 +1,7 @@
 package com.fraczekkrzysztof.gymreservation.dto;
 
+import java.util.Date;
+
 public class ReservationDto {
 
 	private int id;
@@ -8,12 +10,13 @@ public class ReservationDto {
 	private String email;
 	private boolean confirmed;
 	private int waiting;
+	private Date time;
 	
 	public ReservationDto() {
 		
 	}
 
-	public ReservationDto(int id, int lessson, String name, String email, boolean confirmed, int waiting) {
+	public ReservationDto(int id, int lessson, String name, String email, boolean confirmed, int waiting, Date time) {
 		super();
 		this.id = id;
 		this.lesson = lessson;
@@ -21,6 +24,7 @@ public class ReservationDto {
 		this.email = email;
 		this.confirmed = confirmed;
 		this.waiting = waiting;
+		this.time = time;
 	}
 
 	public int getId() {

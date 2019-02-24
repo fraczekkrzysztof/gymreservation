@@ -1,5 +1,7 @@
 package com.fraczekkrzysztof.gymreservation.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "reservation")
@@ -27,12 +31,15 @@ public class Reservation {
 	private boolean confirmed = false;
 	@Column(name = "res_waiting_lp")
 	private int waiting;
+	@Column(name = "res_time",columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date time;
 
 	public Reservation() {
 
 	}
 
-	public Reservation(int id, Lesson lesson, String name, String email, boolean confirmed, int waiting) {
+	public Reservation(int id, Lesson lesson, String name, String email, boolean confirmed, int waiting, Date time) {
 		super();
 		this.id = id;
 		this.lesson = lesson;
@@ -40,6 +47,7 @@ public class Reservation {
 		this.email = email;
 		this.confirmed = confirmed;
 		this.waiting = waiting;
+		this.time = time;
 	}
 
 	public int getId() {
@@ -89,5 +97,15 @@ public class Reservation {
 	public void setWaiting(int waiting) {
 		this.waiting = waiting;
 	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	
+	
 
 }

@@ -25,6 +25,11 @@ public class RestExceptionHandler {
 	public ResponseEntity<RestErrorResponse> handleException(DuplicatedException exc) {
 		RestErrorResponse error = new RestErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage(),
 				System.currentTimeMillis());
-		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);	
+	}
+	@ExceptionHandler
+	public ResponseEntity<RestErrorResponse> handleException(MyParseException exc){
+		RestErrorResponse error = new RestErrorResponse(HttpStatus.BAD_REQUEST.value(),exc.getMessage(),System.currentTimeMillis());
+		return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
 }
 }

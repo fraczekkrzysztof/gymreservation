@@ -1,6 +1,8 @@
 package com.fraczekkrzysztof.gymreservation.controller.rest;
 
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,8 +53,10 @@ public class ReservationRestController {
 		if (theLesson == null) {
 			throw new NotFoundException("There is no lesson with id " + theReservation.getLesson());
 		}
+		Date now = new Date();
+		System.out.println(now);
 		Reservation insertedReservation = new Reservation(0, theLesson, theReservation.getName(),
-				theReservation.getEmail(),false,0);
+				theReservation.getEmail(),false,0,now);
 		reservationService.saveOrUpdate(insertedReservation);
 		theLesson.changeAvailable();
 		lessonService.saveOrUdpdate(theLesson);
@@ -69,7 +73,8 @@ public class ReservationRestController {
 		}
 		int maxWaiting = reservationService.findMaxWaitingNumber(theReservation.getLesson());
 		maxWaiting++;
-		Reservation insertedReservation = new Reservation (0, theLesson, theReservation.getName(), theReservation.getEmail(),false,maxWaiting);
+		Date now = new Date();
+		Reservation insertedReservation = new Reservation (0, theLesson, theReservation.getName(), theReservation.getEmail(),false,maxWaiting,now);
 		reservationService.saveOrUpdate(insertedReservation);
 		return insertedReservation;
 	}
