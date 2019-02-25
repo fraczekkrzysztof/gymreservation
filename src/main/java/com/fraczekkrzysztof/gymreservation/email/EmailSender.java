@@ -38,11 +38,17 @@ public class EmailSender {
 		theContext.setVariable("lesson", theLesson.getName());
 		theContext.setVariable("date", theLesson.getDate());
 		theContext.setVariable("trainer", theLesson.getTrainer().getName());
-		theContext.setVariable("link", generateConfirmationLink(theReservation.getId()));
+		theContext.setVariable("linkConfirm", generateConfirmationLink(theReservation.getId()));
+		theContext.setVariable("linkCancel", generateCancelLink(theReservation.getId()));
 		return theContext;
 		
 	}
 	
+	private String generateCancelLink(int theId) {
+		String url = "http://localhost:8080/api/reservation/" + theId + "/cancel";
+		return url;
+	}
+
 	private String generateConfirmationLink(int theId) {
 		String url = "http://localhost:8080/api/reservation/" + theId + "/confirm";
 		return url;

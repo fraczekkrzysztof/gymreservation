@@ -1,8 +1,7 @@
 package com.fraczekkrzysztof.gymreservation.controller.rest;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fraczekkrzysztof.gymreservation.component.ReservationComponent;
 import com.fraczekkrzysztof.gymreservation.controller.rest.exception.NotFoundException;
 import com.fraczekkrzysztof.gymreservation.dto.ReservationDto;
 import com.fraczekkrzysztof.gymreservation.email.EmailSender;
@@ -30,6 +30,8 @@ public class ReservationRestController {
 	private LessonService lessonService;
 	@Autowired
 	private EmailSender emailSender;
+	@Autowired
+	private ReservationComponent reservationComponent;
 
 	@GetMapping("/reservation")
 	public List<Reservation> getAllReservation() {
@@ -53,14 +55,13 @@ public class ReservationRestController {
 		if (theLesson == null) {
 			throw new NotFoundException("There is no lesson with id " + theReservation.getLesson());
 		}
-		Date now = new Date();
-		System.out.println(now);
+		LocalDateTime now = LocalDateTime.now();
 		Reservation insertedReservation = new Reservation(0, theLesson, theReservation.getName(),
-				theReservation.getEmail(),false,0,now);
+				theReservation.getEmail(),false,0,now,false);
 		reservationService.saveOrUpdate(insertedReservation);
 		theLesson.changeAvailable();
 		lessonService.saveOrUdpdate(theLesson);
-		emailSender.sendEmail(theReservation.getEmail(), emailSender.EMAIL_TOPIC_RESERVATION, emailSender.TEMPLATE_NAME,
+		emailSender.sendEmail(theReservation.getEmail(), EmailSender.EMAIL_TOPIC_RESERVATION, EmailSender.TEMPLATE_NAME,
 				emailSender.generateReservationEmail(theLesson,insertedReservation));
 		return insertedReservation;
 	}
@@ -73,8 +74,8 @@ public class ReservationRestController {
 		}
 		int maxWaiting = reservationService.findMaxWaitingNumber(theReservation.getLesson());
 		maxWaiting++;
-		Date now = new Date();
-		Reservation insertedReservation = new Reservation (0, theLesson, theReservation.getName(), theReservation.getEmail(),false,maxWaiting,now);
+		LocalDateTime now = LocalDateTime.now();
+		Reservation insertedReservation = new Reservation (0, theLesson, theReservation.getName(), theReservation.getEmail(),false,maxWaiting,now,false);
 		reservationService.saveOrUpdate(insertedReservation);
 		return insertedReservation;
 	}
@@ -85,6 +86,14 @@ public class ReservationRestController {
 		theReservation.setConfirmed(true);
 		reservationService.saveOrUpdate(theReservation);
 		return "Reservation Confirmed!";
+	}
+	@GetMapping("/reservation/{reservationId}/cancel")
+	public String cancelReservation(@PathVariable("reservationId") int theReservationId) {
+		Reservation theReservation = reservationService.findById(theReservationId);
+		theReservation.setCanceled(true);
+		reservationService.saveOrUpdate(theReservation);
+		reservationComponent.updateAvailable(theReservation.getLesson());
+		return "Reservation Calceled!";
 	}
 	
 	

@@ -14,6 +14,7 @@
     	<td>Trainer: </td><td th:text="${trainer}"></td>
     </tr>
     </table>
-    <span>Click <a th:href="${link}">here</a> to Confirm reservation</span>
+    <div>Click <a th:href="${linkConfirm}">here</a> to Confirm reservation</div>
+    <div>You can cancel reservation in any moment, even if reservation was confirmed earlier. Clik <a th:href="${linkCancel}">here</a> to cancel reservation</div>
 </body>
 </html>
