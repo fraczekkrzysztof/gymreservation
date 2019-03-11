@@ -93,7 +93,16 @@ public class ReservationRestController {
 		theReservation.setCanceled(true);
 		reservationService.saveOrUpdate(theReservation);
 		reservationComponent.updateAvailable(theReservation.getLesson());
-		return "Reservation Calceled!";
+		Reservation theFirstWaitReservation = reservationComponent.findFirstWaiting(theReservation.getLesson());
+		if (!(theFirstWaitReservation == null)) {
+			theFirstWaitReservation.setWaiting(0);
+			theFirstWaitReservation.setTime(LocalDateTime.now());
+			reservationService.saveOrUpdate(theFirstWaitReservation);
+			reservationService.findByLessonId(theFirstWaitReservation.getLesson().getId()).stream().filter(res -> res.getWaiting()>0).forEach(res -> reservationComponent.updateWaiting(res));
+			emailSender.sendEmail(theReservation.getEmail(), EmailSender.EMAIL_TOPIC_WAITING, EmailSender.TEMPLATE_NAME,
+					emailSender.generateReservationEmailForFirstWaiting(theFirstWaitReservation.getLesson(),theFirstWaitReservation));
+		}
+		return "Reservation Canceled!";
 	}
 	
 	

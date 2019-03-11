@@ -37,6 +37,7 @@ public class Activity {
 	private String name;
 	@OneToMany(mappedBy="activity", cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.LAZY)
 	@JsonBackReference(value = "activity-lesson")
+	@JsonIgnoreProperties
 	private List<Lesson> lessons;
 
 	public Activity() {

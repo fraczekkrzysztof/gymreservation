@@ -36,11 +36,9 @@ public class Lesson {
 	private int available;
 	@ManyToOne
 	@JoinColumn(name = "cl_tr_id")
-	// @JsonManagedReference(value="trainer-lesson")
 	private Trainer trainer;
 	@ManyToOne
 	@JoinColumn(name = "cl_ac_id")
-	// @JsonManagedReference(value="activity-lesson")
 	private Activity activity;
 
 	public Lesson() {

@@ -24,27 +24,37 @@ public class ReservationService {
 	}
 	
 	public Reservation findById(int theId) {
+
 		return reservationDao.findById(theId).orElse(null);
 	}
 	
 	public Reservation saveOrUpdate(Reservation theReservation) {
+
 		return reservationDao.save(theReservation);
 	}
 	
 	public void delete(Reservation theReservation) {
+
 		reservationDao.delete(theReservation);
 	}
 	
 	public void deleteById(int theId) {
+
 		reservationDao.deleteById(theId);
 	}
 	
 	public List<Reservation> findByLessonId(int theId){
+
 		return reservationDao.findByLessonId(theId);
 	}
 	
 	public int findMaxWaitingNumber(int theLessonId) {
+
 		return reservationDao.findMaxWaitingNumber(theLessonId).orElse(0);
 	}
+
+    public Reservation findFirstWaitingForLesson(int theLessonId) {
+		return reservationDao.findFirstWaitingFromLesson(theLessonId).orElse(null);
+    }
 
 }

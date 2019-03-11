@@ -30,18 +30,28 @@ public class EmailSender {
 	public static final String TEMPLATE_NAME = "template.html";
 	public static final String EMAIL_FROM = "gymreservationdev@gmail.com";
 	
-	
-	
-	public Context generateReservationEmail(Lesson theLesson, Reservation theReservation) {
-		Context theContext = new Context();
-		theContext.setVariable("message", "Reservation succed!");
+
+	private void setCommonContext(Context theContext, Lesson theLesson, Reservation theReservation){
 		theContext.setVariable("lesson", theLesson.getName());
 		theContext.setVariable("date", theLesson.getDate());
 		theContext.setVariable("trainer", theLesson.getTrainer().getName());
 		theContext.setVariable("linkConfirm", generateConfirmationLink(theReservation.getId()));
 		theContext.setVariable("linkCancel", generateCancelLink(theReservation.getId()));
+	}
+	
+	public Context generateReservationEmail(Lesson theLesson, Reservation theReservation) {
+		Context theContext = new Context();
+		theContext.setVariable("message", "Reservation succed!");
+		setCommonContext(theContext, theLesson, theReservation);
 		return theContext;
 		
+	}
+
+	public Context generateReservationEmailForFirstWaiting(Lesson theLesson, Reservation theReservation){
+		Context theContext = new Context();
+		theContext.setVariable("message", "Empty place - please confirmed within 24 hours");
+		setCommonContext(theContext, theLesson, theReservation);
+		return theContext;
 	}
 	
 	private String generateCancelLink(int theId) {

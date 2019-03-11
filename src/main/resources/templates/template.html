@@ -2,19 +2,26 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head></head>
 <body>
+<div>
     <span style="font-weight: bold;" th:text="${message}"></span>
     <table>
-    <tr>
-    	<td>Lesson: </td><td th:text="${lesson}"></td>
-    </tr>
-    <tr>
-    	<td>Date: </td><td th:text="${date}"></td>
-    </tr>
-    <tr>
-    	<td>Trainer: </td><td th:text="${trainer}"></td>
-    </tr>
+        <tr>
+            <td>Lesson:</td>
+            <td th:text="${lesson}"></td>
+        </tr>
+        <tr>
+            <td>Date:</td>
+            <td th:text="${date}"></td>
+        </tr>
+        <tr>
+            <td>Trainer:</td>
+            <td th:text="${trainer}"></td>
+        </tr>
     </table>
     <div>Click <a th:href="${linkConfirm}">here</a> to Confirm reservation</div>
-    <div>You can cancel reservation in any moment, even if reservation was confirmed earlier. Clik <a th:href="${linkCancel}">here</a> to cancel reservation</div>
+    <div>You can cancel reservation in any moment, even if reservation was confirmed earlier. Clik <a
+            th:href="${linkCancel}">here</a> to cancel reservation
+    </div>
+</div>
 </body>
 </html>

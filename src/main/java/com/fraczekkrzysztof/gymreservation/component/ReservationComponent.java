@@ -1,5 +1,6 @@
 package com.fraczekkrzysztof.gymreservation.component;
 
+import com.fraczekkrzysztof.gymreservation.entity.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,5 +25,14 @@ public class ReservationComponent {
 		available++;
 		theLesson.setAvailable(available);
 		lessonService.saveOrUdpdate(theLesson);
+	}
+
+	public Reservation findFirstWaiting(Lesson theLesson){
+		return reservationService.findFirstWaitingForLesson(theLesson.getId());
+	}
+
+	public void updateWaiting(Reservation res) {
+		res.setWaiting(res.getWaiting()-1);
+		reservationService.saveOrUpdate(res);
 	}
 }
