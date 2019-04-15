@@ -54,9 +54,9 @@ public class LessonRestController {
 	@PostMapping("/lesson")
 	public Lesson addLesson(@RequestBody LessonDto theLessonDto) throws ParseException {
 		System.out.println(theLessonDto.getDate());
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 		try {
-			LocalDateTime date = LocalDateTime.parse(theLessonDto.getDate(), dtf);
+			LocalDateTime date = LocalDateTime.parse(theLessonDto.getDate(),dtf);
 			System.out.println(date);
 			Lesson theLesson = new Lesson(0, theLessonDto.getName(),date, theLessonDto.getMax(),
 					theLessonDto.getAvailable(), null, null);
