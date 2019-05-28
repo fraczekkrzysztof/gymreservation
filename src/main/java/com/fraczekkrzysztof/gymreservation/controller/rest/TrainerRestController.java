@@ -2,6 +2,7 @@ package com.fraczekkrzysztof.gymreservation.controller.rest;
 
 import java.util.List;
 
+import com.fraczekkrzysztof.gymreservation.controller.rest.exception.CannotDeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,40 +22,44 @@ import com.fraczekkrzysztof.gymreservation.service.TrainerService;
 @RequestMapping("/api")
 public class TrainerRestController {
 
-	@Autowired
-	TrainerService trainerService;
+    @Autowired
+    TrainerService trainerService;
 
-	@GetMapping("/trainer")
-	public List<Trainer> getAllTrainers() {
-		return trainerService.findAll();
-	}
+    @GetMapping("/trainer")
+    public List<Trainer> getAllTrainers() {
+        return trainerService.findAll();
+    }
 
-	@GetMapping("/trainer/{id}")
-	public Trainer getTrainerById(@PathVariable("id") int id) {
-		Trainer tempTrainer = trainerService.findById(id);
-		if (tempTrainer == null) {
-			throw new NotFoundException("Trainer dosn't exist!");
-		}
-		return tempTrainer;
-	}
+    @GetMapping("/trainer/{id}")
+    public Trainer getTrainerById(@PathVariable("id") int id) {
+        Trainer tempTrainer = trainerService.findById(id);
+        if (tempTrainer == null) {
+            throw new NotFoundException("Trainer dosn't exist!");
+        }
+        return tempTrainer;
+    }
 
-	@PostMapping("/trainer")
-	public Trainer addTrainer(@RequestBody Trainer theTrainer) {
-		Trainer tempTrainer = trainerService.findBySymbol(theTrainer.getSymbol());
-		if (!(tempTrainer == null)) {
-			throw new DuplicatedException("Trainer already exists!");
-		}
-		theTrainer.setId(0);
-		return trainerService.saveOrUpdate(theTrainer);
-	}
-	
-	@PutMapping("/trainer")
-	public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
-		return trainerService.saveOrUpdate(theTrainer);
-	}
-	
-	@DeleteMapping("/trainer/{id}")
-	public void deleteTrainer(@PathVariable("id") int id) {
-		trainerService.delete(id);
-	}
+    @PostMapping("/trainer")
+    public Trainer addTrainer(@RequestBody Trainer theTrainer) {
+        Trainer tempTrainer = trainerService.findBySymbol(theTrainer.getSymbol());
+        if (!(tempTrainer == null)) {
+            throw new DuplicatedException("Trainer already exists!");
+        }
+        theTrainer.setId(0);
+        return trainerService.saveOrUpdate(theTrainer);
+    }
+
+    @PutMapping("/trainer")
+    public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
+        return trainerService.saveOrUpdate(theTrainer);
+    }
+
+    @DeleteMapping("/trainer/{id}")
+    public void deleteTrainer(@PathVariable("id") int id) {
+        Trainer toDeleteTrainer = trainerService.findById(id);
+        if (toDeleteTrainer != null) {
+            throw new CannotDeleteException("Trainer is used!");
+        }
+        trainerService.delete(id);
+    }
 }

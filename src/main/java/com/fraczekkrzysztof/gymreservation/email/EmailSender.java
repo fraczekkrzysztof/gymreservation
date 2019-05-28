@@ -76,7 +76,7 @@ public class EmailSender {
            
             javaMailSender.send(mail);
         } catch (Exception e) {
-            LOGGER.error(String.format("Problem with sending email to: {}, error message: {}", to, e.getMessage()));
+            LOGGER.error("Problem with sending email to: {}, error message: {}", to, e.getMessage());
         }
 		 	
 	}
