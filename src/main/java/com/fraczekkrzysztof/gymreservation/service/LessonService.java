@@ -38,4 +38,20 @@ public class LessonService {
 	public void delete(Lesson theLesson) {
 		lessonDao.delete(theLesson);
 	}
+
+	public List<Lesson> findLessonsByActivityId(int id){
+		List<Lesson> theLessonList = new ArrayList<Lesson>();
+		for (Lesson theLesson : lessonDao.findLessonsByActivityId(id)) {
+			theLessonList.add(theLesson);
+		}
+		return theLessonList;
+	}
+
+	public List<Lesson> findLessonsByTrainerId(int id){
+		List<Lesson> theLessonList = new ArrayList<Lesson>();
+		for (Lesson theLesson : lessonDao.findLessonsByTrainerId(id)) {
+			theLessonList.add(theLesson);
+		}
+		return theLessonList;
+	}
 }

@@ -85,5 +85,15 @@ public class LessonRestController {
 	public void deleteLesson(@PathVariable("id") int theId) {
 		lessonService.delete(theId);
 	}
+
+	@GetMapping("/lesson/activity/{id}")
+	public List<Lesson> getLessonsByActivityId(@PathVariable("id") int theId){
+		return lessonService.findLessonsByActivityId(theId);
+	}
+
+	@GetMapping("/lesson/trainer/{id}")
+	public List<Lesson> getLessonsByTrainerId(@PathVariable("id") int theId){
+		return lessonService.findLessonsByTrainerId(theId);
+	}
 }
 
