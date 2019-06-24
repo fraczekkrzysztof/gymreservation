@@ -57,7 +57,7 @@ public class TrainerRestController {
     @DeleteMapping("/trainer/{id}")
     public void deleteTrainer(@PathVariable("id") int id) {
         Trainer toDeleteTrainer = trainerService.findById(id);
-        if (toDeleteTrainer != null) {
+        if (toDeleteTrainer.getLessons().size() != 0) {
             throw new CannotDeleteException("Trainer is used!");
         }
         trainerService.delete(id);

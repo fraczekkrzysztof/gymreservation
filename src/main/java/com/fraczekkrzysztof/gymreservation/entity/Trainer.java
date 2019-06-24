@@ -74,10 +74,7 @@ public class Trainer {
 	public void setLessons(List<Lesson> lessons) {
 		this.lessons = lessons;
 	}
-	@Override
-	public String toString() {
-		return "Trainer [id=" + id + ", symbol=" + symbol + ", name=" + name + ", lessons=" + lessons.toString() + "]";
-	}
+
 	
 	
 

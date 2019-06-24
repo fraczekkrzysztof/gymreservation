@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.thymeleaf.util.StringUtils;
 
 @Entity
 @Table(name = "activity")
@@ -90,10 +91,6 @@ public class Activity {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Activity [id=" + id + ", symbol=" + symbol + ", name=" + name + ", lessons=" + lessons.toString() + "]";
-	}
 
 
 	

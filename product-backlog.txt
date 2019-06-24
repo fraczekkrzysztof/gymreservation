@@ -1,0 +1,10 @@
+
+1. Make sure that all gui operation are working
+	a. adding, deleting, modyfing dictionary info (DONE)
+	b. adding lessons
+	c. creating reservation
+	d. confirming reservation
+	e. adding to waiting list
+2. Add filter to list of lessons, showing only actual lessons, oredered by date
+3. Modyfing sending email by using queues
+4. add logging using firebase

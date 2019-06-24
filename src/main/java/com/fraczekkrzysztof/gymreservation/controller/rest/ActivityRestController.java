@@ -54,7 +54,7 @@ public class ActivityRestController {
     @DeleteMapping("activity/{id}")
     public void deleteActivity(@PathVariable("id") int id) {
         Activity toDeleteActivity = activityService.findById(id);
-        if (toDeleteActivity.getLessons() != null) {
+        if (toDeleteActivity.getLessons().size() != 0) {
             throw new CannotDeleteException("Activity is used!");
         }
         activityService.delete(id);
